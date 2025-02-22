@@ -37,8 +37,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Django 2FA Auth
     "django_otp",
+    "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
+    "two_factor",
+    # Apps
+    "userprofile",
 ]
 
 MIDDLEWARE = [
@@ -49,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_otp.middleware.OTPMiddleware",
 ]
 
 ROOT_URLCONF = "Hoot.urls"
@@ -77,8 +83,12 @@ WSGI_APPLICATION = "Hoot.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "hootdb",  # Database name
+        "USER": "admin",  # Database username
+        "PASSWORD": "password123",  # Database password
+        "HOST": "127.0.0.1",  # Set to the database host (e.g., 'localhost' or an IP)
+        "PORT": "6500",  # Default PostgreSQL port
     }
 }
 
@@ -101,11 +111,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# wanted to use argon2 password hasher
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.ScryptPasswordHasher",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en-gb"
 
 TIME_ZONE = "UTC"
 
@@ -123,3 +141,9 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+LOGIN_URL = "two_factor:login"
+
+# this one is optional
+LOGIN_REDIRECT_URL = "two_factor:profile"
