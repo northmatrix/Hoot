@@ -5,5 +5,4 @@ from . import models
 
 # Register your models here.
 
-admin.site.register(models.UserProfile)
-# Register your models here.
+admin.site.register(models.CustomUser, UserAdmin)

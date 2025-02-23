@@ -1,18 +1,18 @@
 # Create your views here.
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from .forms import RegistrationForm
+from .models import UserProfile
 
 
-def register(request):
-    if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(
-                "account/login"
-            )  # Redirect to login page after registration
-    else:
-        form = RegistrationForm()
-    return render(request, "register.html", {"form": form})
+@login_required
+def profile(request):
+    if request.method == "GET":
+        user = request.user
+        profile_picture_url = user.profile.profile_picture.url
+        return render(
+            request,
+            "profile.html",
+            {"profile": profile, "image_url": profile_picture_url},
+        )

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,10 +28,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "user.CustomUser"
 
 # Application definition
 
 INSTALLED_APPS = [
+    # Apps
+    "userprofile",
+    "user",
+    # Default
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,8 +48,6 @@ INSTALLED_APPS = [
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "two_factor",
-    # Apps
-    "userprofile",
 ]
 
 MIDDLEWARE = [
@@ -143,7 +147,11 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-LOGIN_URL = "two_factor:login"
+LOGIN_URL = "/account/login"
 
 # this one is optional
-LOGIN_REDIRECT_URL = "two_factor:profile"
+LOGIN_REDIRECT_URL = "/profile/profile"
+
+# This is what i added
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
