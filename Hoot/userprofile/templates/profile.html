@@ -1,8 +1,4 @@
-<img src="{{ image_url }}" alt="Profile Picture">
-{{ user.username }}
-{{ user.email }}
-{{ user.first_name }}
-{{ user.last_name }}
-{{ user.id }}
-
-
+<img width="100px" height="100px" src="{{ profile.profile_picture_url }}" alt="Profile Picture" />
+<p>Username: {{ user.username }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Bio: {{ profile.bio }}</P

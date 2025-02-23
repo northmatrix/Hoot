@@ -34,8 +34,8 @@ AUTH_USER_MODEL = "user.CustomUser"
 
 INSTALLED_APPS = [
     # Apps
-    "userprofile",
-    "user",
+    "userprofile.apps.UserProfileConfig",
+    "user.apps.UserConfig",
     # Default
     "django.contrib.admin",
     "django.contrib.auth",

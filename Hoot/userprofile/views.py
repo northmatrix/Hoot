@@ -10,9 +10,12 @@ from .models import UserProfile
 def profile(request):
     if request.method == "GET":
         user = request.user
-        profile_picture_url = user.profile.profile_picture.url
+        profile = {
+            "profile_picture_url": user.profile.profile_picture.url,
+            "bio": user.profile.bio,
+        }
         return render(
             request,
             "profile.html",
-            {"profile": profile, "image_url": profile_picture_url},
+            {"user": user, "profile": profile},
         )
